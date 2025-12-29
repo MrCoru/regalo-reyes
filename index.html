@@ -7,67 +7,15 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --oro: #d4af37; --rojo: #e94560; --fondo: #1a1a2e; }
-        body {
-            background-color: var(--fondo);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .card {
-            background: #16213e;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 2px solid var(--oro);
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-        }
-        .progress-bar {
-            height: 10px;
-            background: #0f3460;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        #progress {
-            height: 100%;
-            width: 25%;
-            background: var(--oro);
-            transition: width 0.5s ease;
-        }
-        h1 { color: var(--oro); font-size: 1.6rem; margin-top: 0; }
-        p { font-size: 1.1rem; min-height: 50px; }
-        input {
-            width: 80%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #0f3460;
-            background: #1a1a2e;
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            outline: none;
-        }
-        input:focus { border-color: var(--oro); }
-        button {
-            background: var(--oro);
-            color: #1a1a2e;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            text-transform: uppercase;
-            width: 100%;
-        }
+        body { background-color: var(--fondo); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #16213e; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); border: 2px solid var(--oro); max-width: 450px; width: 90%; text-align: center; }
+        .progress-bar { height: 10px; background: #0f3460; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
+        #progress { height: 100%; width: 25%; background: var(--oro); transition: width 0.5s ease; }
+        h1 { color: var(--oro); font-size: 1.6rem; }
+        input { width: 80%; padding: 12px; border-radius: 10px; border: 2px solid #0f3460; background: #1a1a2e; color: white; font-size: 1.1rem; text-align: center; margin-bottom: 1.5rem; outline: none; }
+        button { background: var(--oro); color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; text-transform: uppercase; width: 100%; }
         #seccion-premio { display: none; }
+        .btn-enlace { background-color: white; color: var(--fondo); margin-top: 20px; text-decoration: none; display: inline-block; width: 80%; padding: 10px; border-radius: 10px; font-weight: bold; }
         img { width: 100%; border-radius: 15px; margin-top: 1rem; border: 1px solid var(--oro); }
     </style>
 </head>
@@ -80,14 +28,18 @@
         <h1 id="titulo-paso">Paso 1 de 4</h1>
         <p id="pregunta">Oro, incienso y...</p>
         <input type="text" id="entrada" placeholder="Tu respuesta..." autocomplete="off">
-        <button id="boton-sig" onclick="verificar()">Siguiente Paso</button>
+        <button onclick="verificar()">Siguiente Paso</button>
     </div>
 
     <div id="seccion-premio">
         <h1>✨ ¡TESORO ENCONTRADO! ✨</h1>
         <p>Los Reyes Magos han premiado tu sabiduría:</p>
-        <img src="regalo.png" alt="Tu Regalo PNG">
-        <p style="color: var(--oro); font-weight: bold; margin-top: 15px;">Dyson Airstrait™: El secreto para un brillo real.</p>
+        <img src="regalo.png" alt="Dyson Airstrait">
+        <p style="color: var(--oro); font-weight: bold; margin-top: 15px;">Dyson Airstrait™</p>
+        
+        <a href="https://www.amazon.com/-/es/dp/B0CV7L12SS/" target="_blank" class="btn-enlace">
+            Ver detalles del regalo ➔
+        </a>
     </div>
 </div>
 
@@ -100,37 +52,28 @@
         { q: "¿Qué Rey Mago suele tener la barba blanca y entregó el Oro?", a: "melchor" }
     ];
 
-    // Permitir usar la tecla "Enter" para responder
-    document.getElementById('entrada').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') { verificar(); }
-    });
+    document.getElementById('entrada').addEventListener('keypress', (e) => { if (e.key === 'Enter') verificar(); });
 
     function verificar() {
         const input = document.getElementById('entrada');
-        // Limpiamos la respuesta (quitar tildes y espacios)
         const userResp = input.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
         if (userResp === preguntas[pasoActual].a) {
             pasoActual++;
-            
             if (pasoActual < preguntas.length) {
-                // AVANZAR A LA SIGUIENTE PREGUNTA
                 input.value = "";
                 document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 4`;
                 document.getElementById('pregunta').innerText = preguntas[pasoActual].q;
                 document.getElementById('progress').style.width = ((pasoActual + 1) / 4 * 100) + "%";
-                
-                // Pequeño confeti de acierto parcial
                 confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
             } else {
-                // ¡MOSTRAR PREMIO FINAL!
                 lanzarGranConfeti();
                 document.getElementById('seccion-juego').style.display = 'none';
                 document.getElementById('seccion-premio').style.display = 'block';
                 document.getElementById('progress').style.width = "100%";
             }
         } else {
-            alert("Los Reyes Magos dicen que esa no es la respuesta correcta... ¡Prueba otra vez!");
+            alert("Respuesta incorrecta. ¡Los camellos se han detenido! Inténtalo de nuevo.");
         }
     }
 
@@ -138,9 +81,9 @@
         var duration = 4 * 1000;
         var end = Date.now() + duration;
         (function frame() {
-            confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffffff', '#ff0000'] });
-            confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffffff', '#ff0000'] });
-            if (Date.now() < end) { requestAnimationFrame(frame); }
+            confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffffff'] });
+            confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffffff'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
         }());
     }
 </script>
