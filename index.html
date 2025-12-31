@@ -63,9 +63,9 @@
             pasoActual++;
             if (pasoActual < preguntas.length) {
                 input.value = "";
-                document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 4`;
+                document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 5`;
                 document.getElementById('pregunta').innerText = preguntas[pasoActual].q;
-                document.getElementById('progress').style.width = ((pasoActual + 1) / 4 * 100) + "%";
+                document.getElementById('progress').style.width = ((pasoActual + 1) / 5 * 100) + "%";
                 confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
             } else {
                 lanzarGranConfeti();
@@ -91,6 +91,7 @@
 
 </body>
 </html>
+
 
 
 
