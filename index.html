@@ -172,20 +172,6 @@
         { q: "La Hospitalidad: ¿Qué suelen dejar los niños en el salón para que los camellos recuperen fuerzas durante su larga noche de trabajo?", 
           a: ["agua y comida", "agua y pasto", "agua y hierba", "pasto", "heno", "zanahorias", "comida y agua", "agua", "comida"] }
     ];
-
-    // Mensajes según aciertos, pero siempre mismo regalo
-    function mensajePorAciertos(score, total) {
-        if (score <= 3) {
-            return "Los Reyes han sido generosos, pero te han pillado un poco despistado. ¡El año que viene toca repasar tradiciones!";
-        } else if (score <= 6) {
-            return "Buen trabajo, conoces bastantes secretos de los Reyes Magos. ¡Ya casi eres experto!";
-        } else if (score <= 9) {
-            return "¡Espectacular! Casi lo sabes todo sobre la noche más mágica del año.";
-        } else { // 10
-            return "Perfecto. Eres un auténtico maestro de la magia de Oriente, te mereces este regalazo.";
-        }
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('titulo-paso').innerText = `Paso 1 de ${preguntas.length}`;
         document.getElementById('pregunta').innerText = preguntas[0].q;
@@ -270,3 +256,4 @@
 
 </body>
 </html>
+
