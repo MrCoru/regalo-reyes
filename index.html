@@ -34,10 +34,9 @@
             margin-bottom: 20px; 
             overflow: hidden; 
         }
-        /* Empieza en 0%, se actualizará con JS */
         #progress { 
             height: 100%; 
-            width: 0%; 
+            width: 0%;              /* empieza a 0, se actualiza con JS */
             background: var(--oro); 
             transition: width 0.5s ease; 
         }
@@ -99,7 +98,8 @@
     </div>
     
     <div id="seccion-juego">
-        <h1 id="titulo-paso">Paso 1 de 5</h1>
+        <!-- El texto se actualizará también desde JS -->
+        <h1 id="titulo-paso">Paso 1 de 10</h1>
         <p id="pregunta">Oro, incienso y...</p>
         <input type="text" id="entrada" placeholder="Tu respuesta..." autocomplete="off">
         <button onclick="verificar()">Siguiente Paso</button>
@@ -121,16 +121,54 @@
     let pasoActual = 0;
     
     const preguntas = [
-        { q: "Oro, incienso y...", a: ["mirra"] },
-        { q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", a: ["roscon", "roscon de reyes"] },
-        { q: "¿En qué transporte viajan los Reyes Magos desde Oriente?", a: ["camellos", "camello"] },
-        { q: "¿Qué Rey Mago suele tener la barba blanca y entregó el Oro?", a: ["melchor"] },
-        { q: "¿Cuántos son los reyes magos?", a: ["3", "tres"] }
+        { 
+            q: "Oro, incienso y...", 
+            a: ["mirra"] 
+        },
+        { 
+            q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", 
+            a: ["roscon", "roscón", "roscon de reyes", "roscón de reyes"] 
+        },
+        { 
+            q: "¿En qué transporte viajan los Reyes Magos desde Oriente?", 
+            a: ["camellos", "camello"] 
+        },
+        { 
+            q: "¿Qué Rey Mago suele tener la barba blanca y entregó el Oro?", 
+            a: ["melchor"] 
+        },
+        { 
+            q: "¿Cuántos son los reyes magos?", 
+            a: ["3", "tres"] 
+        },
+        { 
+            q: "¿Cómo se llama el gran desfile que recorre las ciudades españolas la tarde del 5 de enero?", 
+            a: ["cabalgata", "cabalgata de reyes", "cabalgata de los reyes magos"] 
+        },
+        { 
+            q: "¿Qué objeto, si te toca dentro del Roscón, hace que seas coronado como 'rey' de la mesa?", 
+            a: ["figurita", "figura", "muñeco", "sorpresa"] 
+        },
+        { 
+            q: "La Mala Suerte del Roscón: ¿Qué semilla leguminosa se esconde en el Roscón y obliga a quien la encuentra a pagar el dulce?", 
+            a: ["haba", "el haba"] 
+        },
+        { 
+            q: "El Castigo: ¿Qué les traen los Reyes Magos a los niños que no se han portado bien durante el año?", 
+            a: ["carbon", "carbón", "carbon dulce", "carbón dulce"] 
+        },
+        { 
+            q: "La Hospitalidad: ¿Qué suelen dejar los niños en el salón para que los camellos recuperen fuerzas durante su larga noche de trabajo?", 
+            a: ["agua y comida", "agua y pasto", "agua y hierba", "pasto", "heno", "zanahorias", "comida y agua", "agua", "comida"] 
+        }
     ];
 
-    // Al cargar, poner la barra en el primer 20%
+    // Al cargar, ajustar título y poner la barra en el primer paso
     window.addEventListener('DOMContentLoaded', () => {
-        const porcentaje = (1 / preguntas.length) * 100; // 1 de 5
+        document.getElementById('titulo-paso').innerText = `Paso 1 de ${preguntas.length}`;
+        document.getElementById('pregunta').innerText = preguntas[0].q;
+
+        const porcentaje = (1 / preguntas.length) * 100; // primer paso
         document.getElementById('progress').style.width = porcentaje + "%";
     });
 
