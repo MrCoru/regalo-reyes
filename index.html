@@ -10,8 +10,10 @@
         body { background-color: var(--fondo); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .card { background: #16213e; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); border: 2px solid var(--oro); max-width: 450px; width: 90%; text-align: center; }
         .progress-bar { height: 10px; background: #0f3460; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
-        /* Ajustado el inicio a 20% (1 de 5) */
+        
+        /* Ajustado a 20% inicial (1 de 5 pasos) */
         #progress { height: 100%; width: 20%; background: var(--oro); transition: width 0.5s ease; }
+        
         h1 { color: var(--oro); font-size: 1.6rem; }
         input { width: 80%; padding: 12px; border-radius: 10px; border: 2px solid #0f3460; background: #1a1a2e; color: white; font-size: 1.1rem; text-align: center; margin-bottom: 1.5rem; outline: none; }
         button { background: var(--oro); color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; text-transform: uppercase; width: 100%; }
@@ -46,7 +48,8 @@
 
 <script>
     let pasoActual = 0;
-    // He convertido las respuestas en arrays para permitir múltiples opciones (ej: 3 o tres)
+    
+    // Lista de preguntas. He modificado la última para que acepte varias respuestas.
     const preguntas = [
         { q: "Oro, incienso y...", a: ["mirra"] },
         { q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", a: ["roscon", "roscon de reyes"] },
@@ -59,20 +62,26 @@
 
     function verificar() {
         const input = document.getElementById('entrada');
-        // Normalizamos la respuesta del usuario (quitar acentos y espacios)
+        // Limpiamos la respuesta: minúsculas, sin acentos y sin espacios extra
         const userResp = input.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
-        // Verificamos si la respuesta coincide con alguna de las opciones válidas
+        // Comprobar si la respuesta está en el array de respuestas permitidas
         if (preguntas[pasoActual].a.includes(userResp)) {
             pasoActual++;
+            
             if (pasoActual < preguntas.length) {
+                // Siguiente pregunta
                 input.value = "";
                 document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 5`;
                 document.getElementById('pregunta').innerText = preguntas[pasoActual].q;
-                // Cálculo de progreso basado en 5 pasos
-                document.getElementById('progress').style.width = ((pasoActual + 1) / 5 * 100) + "%";
+                
+                // Actualizar progreso (paso actual + 1 / total)
+                let porcentaje = ((pasoActual + 1) / preguntas.length) * 100;
+                document.getElementById('progress').style.width = porcentaje + "%";
+                
                 confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
             } else {
+                // Fin del juego
                 lanzarGranConfeti();
                 document.getElementById('seccion-juego').style.display = 'none';
                 document.getElementById('seccion-premio').style.display = 'block';
