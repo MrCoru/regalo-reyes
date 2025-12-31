@@ -7,25 +7,96 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root { --oro: #d4af37; --rojo: #e94560; --fondo: #1a1a2e; }
-        body { background-color: var(--fondo); color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #16213e; padding: 2.5rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.7); border: 2px solid var(--oro); max-width: 450px; width: 90%; text-align: center; }
-        .progress-bar { height: 10px; background: #0f3460; border-radius: 5px; margin-bottom: 20px; overflow: hidden; }
-        
-        /* Ajustado a 20% inicial (1 de 5 pasos) */
-        #progress { height: 100%; width: 20%; background: var(--oro); transition: width 0.5s ease; }
-        
-        h1 { color: var(--oro); font-size: 1.6rem; }
-        input { width: 80%; padding: 12px; border-radius: 10px; border: 2px solid #0f3460; background: #1a1a2e; color: white; font-size: 1.1rem; text-align: center; margin-bottom: 1.5rem; outline: none; }
-        button { background: var(--oro); color: #1a1a2e; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1rem; text-transform: uppercase; width: 100%; }
-        #seccion-premio { display: none; }
-        .btn-enlace { background-color: white; color: var(--fondo); margin-top: 20px; text-decoration: none; display: inline-block; width: 80%; padding: 10px; border-radius: 10px; font-weight: bold; }
-        img { width: 100%; border-radius: 15px; margin-top: 1rem; border: 1px solid var(--oro); }
+        body { 
+            background-color: var(--fondo); 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .card { 
+            background: #16213e; 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7); 
+            border: 2px solid var(--oro); 
+            max-width: 450px; 
+            width: 90%; 
+            text-align: center; 
+        }
+        .progress-bar { 
+            height: 10px; 
+            background: #0f3460; 
+            border-radius: 5px; 
+            margin-bottom: 20px; 
+            overflow: hidden; 
+        }
+        /* Empieza en 0%, se actualizará con JS */
+        #progress { 
+            height: 100%; 
+            width: 0%; 
+            background: var(--oro); 
+            transition: width 0.5s ease; 
+        }
+        h1 { 
+            color: var(--oro); 
+            font-size: 1.6rem; 
+        }
+        input { 
+            width: 80%; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 2px solid #0f3460; 
+            background: #1a1a2e; 
+            color: white; 
+            font-size: 1.1rem; 
+            text-align: center; 
+            margin-bottom: 1.5rem; 
+            outline: none; 
+        }
+        button { 
+            background: var(--oro); 
+            color: #1a1a2e; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            width: 100%; 
+        }
+        #seccion-premio { 
+            display: none; 
+        }
+        .btn-enlace { 
+            background-color: white; 
+            color: var(--fondo); 
+            margin-top: 20px; 
+            text-decoration: none; 
+            display: inline-block; 
+            width: 80%; 
+            padding: 10px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+        }
+        img { 
+            width: 100%; 
+            border-radius: 15px; 
+            margin-top: 1rem; 
+            border: 1px solid var(--oro); 
+        }
     </style>
 </head>
 <body>
 
 <div class="card" id="contenedor">
-    <div class="progress-bar"><div id="progress"></div></div>
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
     
     <div id="seccion-juego">
         <h1 id="titulo-paso">Paso 1 de 5</h1>
@@ -49,7 +120,6 @@
 <script>
     let pasoActual = 0;
     
-    // Lista de preguntas. He modificado la última para que acepte varias respuestas.
     const preguntas = [
         { q: "Oro, incienso y...", a: ["mirra"] },
         { q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", a: ["roscon", "roscon de reyes"] },
@@ -58,30 +128,41 @@
         { q: "¿Cuántos son los reyes magos?", a: ["3", "tres"] }
     ];
 
-    document.getElementById('entrada').addEventListener('keypress', (e) => { if (e.key === 'Enter') verificar(); });
+    // Al cargar, poner la barra en el primer 20%
+    window.addEventListener('DOMContentLoaded', () => {
+        const porcentaje = (1 / preguntas.length) * 100; // 1 de 5
+        document.getElementById('progress').style.width = porcentaje + "%";
+    });
+
+    document.getElementById('entrada').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verificar();
+    });
 
     function verificar() {
         const input = document.getElementById('entrada');
-        // Limpiamos la respuesta: minúsculas, sin acentos y sin espacios extra
-        const userResp = input.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        const userResp = input.value
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim();
 
-        // Comprobar si la respuesta está en el array de respuestas permitidas
         if (preguntas[pasoActual].a.includes(userResp)) {
             pasoActual++;
             
             if (pasoActual < preguntas.length) {
-                // Siguiente pregunta
                 input.value = "";
-                document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 5`;
+                document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de ${preguntas.length}`;
                 document.getElementById('pregunta').innerText = preguntas[pasoActual].q;
                 
-                // Actualizar progreso (paso actual + 1 / total)
                 let porcentaje = ((pasoActual + 1) / preguntas.length) * 100;
                 document.getElementById('progress').style.width = porcentaje + "%";
                 
-                confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
+                confetti({ 
+                    particleCount: 30, 
+                    spread: 40, 
+                    origin: { y: 0.8 } 
+                });
             } else {
-                // Fin del juego
                 lanzarGranConfeti();
                 document.getElementById('seccion-juego').style.display = 'none';
                 document.getElementById('seccion-premio').style.display = 'block';
@@ -96,8 +177,20 @@
         var duration = 4 * 1000;
         var end = Date.now() + duration;
         (function frame() {
-            confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#d4af37', '#ffffff'] });
-            confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#d4af37', '#ffffff'] });
+            confetti({ 
+                particleCount: 7, 
+                angle: 60, 
+                spread: 55, 
+                origin: { x: 0 }, 
+                colors: ['#d4af37', '#ffffff'] 
+            });
+            confetti({ 
+                particleCount: 7, 
+                angle: 120, 
+                spread: 55, 
+                origin: { x: 1 }, 
+                colors: ['#d4af37', '#ffffff'] 
+            });
             if (Date.now() < end) requestAnimationFrame(frame);
         }());
     }
