@@ -4,166 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Misión: Regalo Real</title>
-
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
     <style>
-        :root {
-            --oro: #d4af37;
-            --fondo: #1a1a2e;
-            --azul: #16213e;
+        :root { --oro: #d4af37; --rojo: #e94560; --fondo: #1a1a2e; }
+        body { 
+            background-color: var(--fondo); 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
         }
 
-        body {
-            background-color: var(--fondo);
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .card {
-            background: var(--azul);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            border: 2px solid var(--oro);
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-        }
-
-        /* CABECERA DEL JUEGO */
+        /* Encabezado del juego arriba */
         .game-header {
-            margin-bottom: 25px;
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            text-align: center;
+            color: #f5f5f5;
         }
-
-        .game-header h1 {
-            color: var(--oro);
+        .game-title {
             font-size: 1.8rem;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--oro);
+            margin-bottom: 0.3rem;
         }
-
-        .game-header p {
+        .game-subtitle {
             font-size: 0.95rem;
             opacity: 0.85;
         }
 
-        .divider {
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--oro), transparent);
-            margin: 15px auto 20px;
+        .card { 
+            background: #16213e; 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7); 
+            border: 2px solid var(--oro); 
+            max-width: 450px; 
+            width: 90%; 
+            text-align: center; 
         }
-
-        .progress-bar {
-            height: 10px;
-            background: #0f3460;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            overflow: hidden;
+        .progress-bar { 
+            height: 10px; 
+            background: #0f3460; 
+            border-radius: 5px; 
+            margin-bottom: 20px; 
+            overflow: hidden; 
         }
-
-        #progress {
-            height: 100%;
-            width: 20%;
-            background: var(--oro);
-            transition: width 0.5s ease;
+        #progress { 
+            height: 100%; 
+            width: 0%; 
+            background: var(--oro); 
+            transition: width 0.5s ease; 
         }
-
-        h2 {
-            color: var(--oro);
-            font-size: 1.4rem;
+        h1 { 
+            color: var(--oro); 
+            font-size: 1.6rem; 
         }
-
-        input {
-            width: 80%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #0f3460;
-            background: #1a1a2e;
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            outline: none;
+        input { 
+            width: 80%; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 2px solid #0f3460; 
+            background: #1a1a2e; 
+            color: white; 
+            font-size: 1.1rem; 
+            text-align: center; 
+            margin-bottom: 1.5rem; 
+            outline: none; 
         }
-
-        button {
-            background: var(--oro);
-            color: #1a1a2e;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            text-transform: uppercase;
-            width: 100%;
+        button { 
+            background: var(--oro); 
+            color: #1a1a2e; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            width: 100%; 
         }
-
-        #seccion-premio {
-            display: none;
+        #seccion-premio { 
+            display: none; 
         }
-
-        img {
-            width: 100%;
-            border-radius: 15px;
-            margin-top: 1rem;
-            border: 1px solid var(--oro);
+        .btn-enlace { 
+            background-color: white; 
+            color: var(--fondo); 
+            margin-top: 20px; 
+            text-decoration: none; 
+            display: inline-block; 
+            width: 80%; 
+            padding: 10px; 
+            border-radius: 10px; 
+            font-weight: bold; 
         }
-
-        .btn-enlace {
-            background: white;
-            color: var(--fondo);
-            margin-top: 20px;
-            text-decoration: none;
-            display: inline-block;
-            width: 80%;
-            padding: 10px;
-            border-radius: 10px;
-            font-weight: bold;
+        img { 
+            width: 100%; 
+            border-radius: 15px; 
+            margin-top: 1rem; 
+            border: 1px solid var(--oro); 
+        }
+        #texto-premio {
+            margin-top: 10px;
         }
     </style>
 </head>
-
 <body>
 
-<div class="card">
+<!-- Encabezado del juego -->
+<div class="game-header">
+    <h1 class="game-title">Misión: Regalo Real</h1>
+    <p class="game-subtitle">Demuestra cuánto sabes de los Reyes Magos y desbloquea tu premio sorpresa.</p>
+</div>
 
-    <!-- CABECERA -->
-    <div class="game-header">
-        <h1>🎁 MISIÓN: REGALO REAL</h1>
-        <p>Supera las pruebas de los Reyes Magos y descubre tu premio</p>
-        <div class="divider"></div>
-    </div>
-
+<div class="card" id="contenedor">
     <div class="progress-bar">
         <div id="progress"></div>
     </div>
-
+    
     <div id="seccion-juego">
-        <h2 id="titulo-paso">Paso 1 de 5</h2>
+        <h1 id="titulo-paso">Paso 1 de 10</h1>
         <p id="pregunta">Oro, incienso y...</p>
         <input type="text" id="entrada" placeholder="Tu respuesta..." autocomplete="off">
-        <button onclick="verificar()">Siguiente paso</button>
+        <button onclick="verificar()">Siguiente Paso</button>
     </div>
 
     <div id="seccion-premio">
-        <h2>✨ ¡TESORO ENCONTRADO! ✨</h2>
-        <p>Has demostrado tu sabiduría real:</p>
-
-        <img src="regalo.png" alt="Dyson Airstrait">
-
-        <p style="color: var(--oro); font-weight: bold; margin-top: 15px;">
-            Dyson Airstrait™
-        </p>
-
-        <a href="https://amzn.eu/d/40ZCZCl" target="_blank" class="btn-enlace">
+        <h1>✨ ¡TESORO ENCONTRADO! ✨</h1>
+        <p id="resumen-aciertos"></p>
+        <img id="img-regalo" src="regalo.png" alt="Dyson Airstrait">
+        <p id="nombre-regalo" style="color: var(--oro); font-weight: bold; margin-top: 15px;">Dyson Airstrait™</p>
+        <p id="texto-premio"></p>
+        
+        <a id="link-regalo" href="https://amzn.eu/d/40ZCZCl" target="_blank" class="btn-enlace">
             Ver detalles del regalo ➔
         </a>
     </div>
@@ -171,60 +148,123 @@
 
 <script>
     let pasoActual = 0;
+    let aciertos = 0;
 
     const preguntas = [
-        { q: "Oro, incienso y...", a: ["mirra"] },
-        { q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", a: ["roscon", "roscon de reyes"] },
-        { q: "¿En qué transporte viajan los Reyes Magos desde Oriente?", a: ["camellos", "camello"] },
-        { q: "¿Qué Rey Mago suele tener la barba blanca y entregó el Oro?", a: ["melchor"] },
-        { q: "¿Cuántos son los Reyes Magos?", a: ["3", "tres"] }
+        { q: "Oro, incienso y...", 
+          a: ["mirra"] },
+        { q: "¿Qué dulce tradicional tiene una sorpresa dentro el 6 de enero?", 
+          a: ["roscon", "roscón", "roscon de reyes", "roscón de reyes"] },
+        { q: "¿En qué transporte viajan los Reyes Magos desde Oriente?", 
+          a: ["camellos", "camello"] },
+        { q: "¿Qué Rey Mago suele tener la barba blanca y entregó el Oro?", 
+          a: ["melchor"] },
+        { q: "¿Cuántos son los reyes magos?", 
+          a: ["3", "tres"] },
+        { q: "¿Cómo se llama el gran desfile que recorre las ciudades españolas la tarde del 5 de enero?", 
+          a: ["cabalgata", "cabalgata de reyes", "cabalgata de los reyes magos"] },
+        { q: "¿Qué objeto, si te toca dentro del Roscón, hace que seas coronado como 'rey' de la mesa?", 
+          a: ["figurita", "figura", "muñeco", "sorpresa"] },
+        { q: "La Mala Suerte del Roscón: ¿Qué semilla leguminosa se esconde en el Roscón y obliga a quien la encuentra a pagar el dulce?", 
+          a: ["haba", "el haba"] },
+        { q: "El Castigo: ¿Qué les traen los Reyes Magos a los niños que no se han portado bien durante el año?", 
+          a: ["carbon", "carbón", "carbon dulce", "carbón dulce"] },
+        { q: "La Hospitalidad: ¿Qué suelen dejar los niños en el salón para que los camellos recuperen fuerzas durante su larga noche de trabajo?", 
+          a: ["agua y comida", "agua y pasto", "agua y hierba", "pasto", "heno", "zanahorias", "comida y agua", "agua", "comida"] }
     ];
 
-    document.getElementById('entrada').addEventListener('keypress', e => {
-        if (e.key === 'Enter') verificar();
-    });
-
-    function normalizar(texto) {
-        return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-    }
-
-    function verificar() {
-        const input = document.getElementById('entrada');
-        const respuesta = normalizar(input.value);
-
-        if (preguntas[pasoActual].a.includes(respuesta)) {
-            pasoActual++;
-
-            if (pasoActual < preguntas.length) {
-                input.value = "";
-                document.getElementById('titulo-paso').innerText = `Paso ${pasoActual + 1} de 5`;
-                document.getElementById('pregunta').innerText = preguntas[pasoActual].q;
-                document.getElementById('progress').style.width =
-                    ((pasoActual + 1) / preguntas.length) * 100 + "%";
-
-                confetti({ particleCount: 30, spread: 40, origin: { y: 0.8 } });
-            } else {
-                finalizarJuego();
-            }
-        } else {
-            alert("Respuesta incorrecta. ¡Los camellos se han detenido!");
+    // Mensajes según aciertos, pero siempre mismo regalo
+    function mensajePorAciertos(score, total) {
+        if (score <= 3) {
+            return "Los Reyes han sido generosos, pero te han pillado un poco despistado. ¡El año que viene toca repasar tradiciones!";
+        } else if (score <= 6) {
+            return "Buen trabajo, conoces bastantes secretos de los Reyes Magos. ¡Ya casi eres experto!";
+        } else if (score <= 9) {
+            return "¡Espectacular! Casi lo sabes todo sobre la noche más mágica del año.";
+        } else { // 10
+            return "Perfecto. Eres un auténtico maestro de la magia de Oriente, te mereces este regalazo.";
         }
     }
 
-    function finalizarJuego() {
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('titulo-paso').innerText = `Paso 1 de ${preguntas.length}`;
+        document.getElementById('pregunta').innerText = preguntas[0].q;
+        const porcentaje = (1 / preguntas.length) * 100;
+        document.getElementById('progress').style.width = porcentaje + "%";
+    });
+
+    document.getElementById('entrada').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') verificar();
+    });
+
+    function verificar() {
+        const input = document.getElementById('entrada');
+        const userResp = input.value
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .trim();
+
+        if (preguntas[pasoActual].a.includes(userResp)) {
+            aciertos++;
+            pasoActual++;
+            
+            if (pasoActual < preguntas.length) {
+                input.value = "";
+                document.getElementById('titulo-paso').innerText = 
+                    `Paso ${pasoActual + 1} de ${preguntas.length}`;
+                document.getElementById('pregunta').innerText = 
+                    preguntas[pasoActual].q;
+                
+                let porcentaje = ((pasoActual + 1) / preguntas.length) * 100;
+                document.getElementById('progress').style.width = porcentaje + "%";
+                
+                confetti({ 
+                    particleCount: 30, 
+                    spread: 40, 
+                    origin: { y: 0.8 } 
+                });
+            } else {
+                mostrarPremio();
+            }
+        } else {
+            alert("Respuesta incorrecta. ¡Los camellos se han detenido! Inténtalo de nuevo.");
+        }
+    }
+
+    function mostrarPremio() {
+        lanzarGranConfeti();
+
         document.getElementById('seccion-juego').style.display = 'none';
         document.getElementById('seccion-premio').style.display = 'block';
         document.getElementById('progress').style.width = "100%";
-        lanzarGranConfeti();
+
+        document.getElementById('resumen-aciertos').innerText = 
+            `Has acertado ${aciertos} de ${preguntas.length} preguntas.`;
+        document.getElementById('texto-premio').innerText = 
+            mensajePorAciertos(aciertos, preguntas.length);
     }
 
     function lanzarGranConfeti() {
-        const end = Date.now() + 4000;
+        var duration = 4 * 1000;
+        var end = Date.now() + duration;
         (function frame() {
-            confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } });
-            confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } });
+            confetti({ 
+                particleCount: 7, 
+                angle: 60, 
+                spread: 55, 
+                origin: { x: 0 }, 
+                colors: ['#d4af37', '#ffffff'] 
+            });
+            confetti({ 
+                particleCount: 7, 
+                angle: 120, 
+                spread: 55, 
+                origin: { x: 1 }, 
+                colors: ['#d4af37', '#ffffff'] 
+            });
             if (Date.now() < end) requestAnimationFrame(frame);
-        })();
+        }());
     }
 </script>
 
